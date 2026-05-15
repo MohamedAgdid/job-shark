@@ -1,0 +1,19 @@
+name: Daily Job Shark
+
+on:
+  schedule:
+    - cron: "0 8 * * 1,3,5"
+  workflow_dispatch:
+
+jobs:
+  hunt-jobs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: setup-node@v4
+        with:
+          node-version: "20"
+      - run: node job-hunter-v3.mjs
+        env:
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+          GOOGLE_SHEETS_WEBHOOK: ${{ secrets.GOOGLE_SHEETS_WEBHOOK }}
